@@ -34,6 +34,36 @@ jobs:
           npm install @capacitor/core @capacitor/android @capacitor/local-notifications
           npm install -D @capacitor/cli
 
+      - name: Prepare Source Files
+        run: |
+          mkdir -p src
+          if [ ! -f "src/main.tsx" ]; then
+            cat << 'EOF' > src/main.tsx
+          import React from 'react'
+          import ReactDOM from 'react-dom/client'
+          import App from './App.tsx'
+          import './index.css'
+
+          ReactDOM.createRoot(document.getElementById('root')!).render(
+            <React.StrictMode>
+              <App />
+            </React.StrictMode>,
+          )
+          EOF
+          fi
+          if [ ! -f "src/index.css" ]; then
+            echo '@tailwind base; @tailwind components; @tailwind utilities;' > src/index.css
+          fi
+          if [ ! -f "src/App.tsx" ]; then
+            if [ -f "App.tsx" ]; then
+              cp App.tsx src/App.tsx
+            elif [ -f "togu_schedule_app.tsx" ]; then
+              cp togu_schedule_app.tsx src/App.tsx
+            elif [ -f "togu-schedule/src/App.tsx" ]; then
+              cp togu-schedule/src/App.tsx src/App.tsx
+            fi
+          fi
+
       - name: Build Web Production Bundle
         run: npx vite build
 
