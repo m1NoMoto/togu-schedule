@@ -1,15 +1,19 @@
 {
   "name": "togu-schedule",
   "private": true,
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Расписание занятий Тихоокеанского государственного университета (ТОГУ) с парсером официального источника togudv.ru",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "server": "node server/toguServer.mjs",
-    "build": "tsc && vite build",
+    "test": "node tests/verify_togu_parser.mjs && node tests/verify_sync_engine.mjs && node tests/verify_release_readiness.mjs",
     "test:parser": "node tests/verify_togu_parser.mjs",
-    "preview": "vite preview"
+    "test:sync": "node tests/verify_sync_engine.mjs",
+    "test:release": "node tests/verify_release_readiness.mjs",
+    "android:sync": "npx vite build && npx cap sync android"
   },
   "dependencies": {
     "lucide-react": "^0.454.0",
